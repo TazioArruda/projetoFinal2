@@ -8,7 +8,7 @@ import { Search } from './UserSearch'
 import { countOption } from '@/pages/users'
 
 export function UsersDoctors() {
-  const [usersDoctors, setUsersDoctors] = useState()
+  const [usersDoctors, setUsersDoctors] = useState<userOptions>()
   const [count, setCount] = useState<countOption>()
 
   useEffect(() => {

@@ -1,11 +1,19 @@
-import { dataUsersAllProps } from '@/api/Data'
+interface dataUsersAllProps {
+  user: string
+  email: string
+  whatsapp: string
+  spec: string
+  city: string
+  state: string
+  typeUser: string
+}
 
 export function TableUsers({
   user,
   email,
   whatsapp,
   spec,
-  cite,
+  city,
   state,
   typeUser
 }: dataUsersAllProps) {
@@ -16,7 +24,7 @@ export function TableUsers({
         <td className=" ">{email}</td>
         <td className=" ">{whatsapp}</td>
         <td className=" ">{spec}</td>
-        <td className=" ">{cite}</td>
+        <td className=" ">{city}</td>
         <td className=" ">{state}</td>
         <td className=" ">{typeUser}</td>
       </tr>

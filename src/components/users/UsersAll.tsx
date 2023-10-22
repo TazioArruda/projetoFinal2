@@ -1,7 +1,9 @@
 import { TableUsers } from '../table/tableUsers'
 import Input from '../ui/input'
 import { useEffect, useState } from 'react'
-import { getUsers } from '@/api/getUsers'
+import { getCount, getUsers, setNumberOfPagesF } from '@/api/getUsers'
+import { Search } from './UserSearch'
+import { countOption } from '@/pages/users'
 
 export interface userOptions {
   id: string
@@ -16,27 +18,24 @@ export interface userOptions {
 
 export function UsersAll() {
   const [users, setUsers] = useState()
+  const [count, setCount] = useState<countOption>()
+  const [page, setPage] = useState(0)
+  const [numberOfPages, setNumberOfPages] = useState(0)
 
   useEffect(() => {
-    getUsers(setUsers)
+    getUsers(setUsers, page)
+    getCount(setCount)
+    setNumberOfPagesF(setNumberOfPages)
   }, [])
 
   return (
     <div className="w-full h-full bg-white p-6 flex gap-8 flex-col rounded-2xl">
-      <div className="flex ">
-        <div className="flex w-[80%] gap-4">
-          <div className="w-[40%]">
-            <Input
-              name={''}
-              tipo={''}
-              placeholder="Pesquise a palavra chave "
-            />
-          </div>
-          <div className="flex w-[60rem] gap-4">
-            <Input name={''} tipo={''} placeholder="Estado (UF)" />
-            <Input name={''} tipo={''} placeholder="Cidade" />
-            <Input name={''} tipo={''} placeholder="Especialidade" />
-          </div>
+      <div className="flex">
+        <Search />
+        <div className="w-full"></div>
+        <div className="flex flex-col gap-2">
+          <span className="text-base w-40">Total de usúarios</span>
+          <span className="text-xl font-semibold">{count?.total}</span>
         </div>
       </div>
       <div className="rounded-xl bg-green-4 pt-2">
@@ -65,17 +64,37 @@ export function UsersAll() {
                   user={user.firstName}
                   email={user.email}
                   whatsapp={user.phone}
-                  spec={user.spec}
-                  city={user.city}
-                  state={user.state}
-                  typeUser={user.typeUser}
+                  spec={'Sem informação'}
+                  city={'Sem informação'}
+                  state={'Sem informação'}
+                  typeUser={'Sem informação'}
                 />
               )
             })}
           </tbody>
         </table>
       </div>
-      <div>paginação</div>
+      <div className="flex gap-4 text-lg">
+        <button
+          onClick={() => page > 0 && setPage(page - 1)}
+          disabled={page === 0}
+        >
+          Página Anterior
+        </button>
+
+        <div className="flex gap-2 font-semibold">
+          <button onClick={() => setPage(1)}>1</button>
+          <button onClick={() => setPage(2)}>2</button>
+          <button onClick={() => setPage(3)}>3</button>
+          <button onClick={() => setPage(4)}>4</button>
+        </div>
+        <button
+          onClick={() => page < numberOfPages && setPage(page + 1)}
+          disabled={page === numberOfPages - 1}
+        >
+          Próxima Página
+        </button>
+      </div>
     </div>
   )
 }

@@ -11,13 +11,12 @@ export function Login() {
   const { data, userLoged } = useContext(CreateAppContext)
   const handleClick = async ({ email, password }: LoginProps) => {
     await login({ email, password }).then(() => {
-      userLoged()
-      if (data.isAuthenticated) {
+      const token = localStorage.getItem('token_fd')
+
+      if (token) {
         navigate('/dashbord')
       }
     })
-
-    // console.log(authCheck())
   }
 
   return (
@@ -29,7 +28,7 @@ export function Login() {
         </div>
         <form className="w-full" onSubmit={handleSubmit(handleClick)}>
           <div>
-            <div className="flex flex-col gap-3">
+            {/* <div className="flex flex-col gap-3">
               email:{' '}
               <input
                 {...register('email')}
@@ -44,9 +43,43 @@ export function Login() {
                 name="password"
                 id="password"
               />
+            </div> */}
+            <div className="relative z-0 w-full mb-8">
+              <input
+                {...register('email')}
+                type="email"
+                name="email"
+                id="email"
+                className="block px-3 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-2xl border border-gray-300 focus:outline-none appearance-none  focus:ring-0 focus:border-green peer "
+                placeholder=" "
+              />
+
+              <label
+                htmlFor="email"
+                className="absolute text-sm text-gray-500  duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-4 peer-focus:px-2 peer-focus:text-green  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1 "
+              >
+                Email
+              </label>
+            </div>
+            <div className="relative z-0 w-full mb-8">
+              <input
+                {...register('password')}
+                type="password"
+                name="password"
+                id="password"
+                className="block px-3 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-2xl border border-gray-300 focus:outline-none appearance-none  focus:ring-0 focus:border-green peer "
+                placeholder=" "
+              />
+
+              <label
+                htmlFor="senha"
+                className="absolute text-sm text-gray-500  duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-4 peer-focus:px-2 peer-focus:text-green  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1 "
+              >
+                Senha
+              </label>
             </div>
 
-            <div className="flex gap-x-16 mt-7 ">
+            <div className="flex gap-x-16 py-6">
               <label htmlFor="remember" className="flex-1">
                 <input
                   type="checkbox"
@@ -59,7 +92,12 @@ export function Login() {
                 Esqueci minha senha
               </a>
             </div>
-            <button type="submit">Entrar</button>
+            <button
+              type="submit"
+              className="w-full py-3 bg-green-4 rounded-2xl text-white"
+            >
+              Entrar
+            </button>
           </div>
         </form>
       </div>

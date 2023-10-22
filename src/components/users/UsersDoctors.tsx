@@ -1,35 +1,32 @@
-import { getUsers } from '@/api/getUsers'
+import { getCount, getUsers } from '@/api/getUsers'
 
 import { useState, useEffect } from 'react'
 import { TableUsers } from '../table/tableUsers'
 import Input from '../ui/input'
 import { userOptions } from './UsersAll'
+import { Search } from './UserSearch'
+import { countOption } from '@/pages/users'
 
 export function UsersDoctors() {
   const [usersDoctors, setUsersDoctors] = useState()
+  const [count, setCount] = useState<countOption>()
 
   useEffect(() => {
     getUsers(setUsersDoctors)
+    getCount(setCount)
   }, [])
 
   return (
     <div className="w-full h-full bg-white p-6 flex gap-8 flex-col rounded-2xl">
-      <div className="flex ">
-        <div className="flex w-[80%] gap-4">
-          <div className="w-[40%]">
-            <Input
-              name={''}
-              tipo={''}
-              placeholder="Pesquise a palavra chave "
-            />
-          </div>
-          <div className="flex w-[60rem] gap-4">
-            <Input name={''} tipo={''} placeholder="Estado (UF)" />
-            <Input name={''} tipo={''} placeholder="Cidade" />
-            <Input name={''} tipo={''} placeholder="Especialidade" />
-          </div>
+      <div className="flex">
+        <Search />
+        <div className="w-full"></div>
+        <div className="flex flex-col gap-2">
+          <span className="text-base w-40">Médicos</span>
+          <span className="text-xl font-semibold">{count?.totalDoctors}</span>
         </div>
       </div>
+
       <div className="rounded-xl bg-green-4 pt-2">
         <table className="w-full rounded-xl bg-white ">
           <thead className="bg-green-4 h-16 text-white text-base ">
@@ -56,10 +53,10 @@ export function UsersDoctors() {
                   user={user.firstName}
                   email={user.email}
                   whatsapp={user.phone}
-                  spec={user.spec}
-                  city={user.city}
-                  state={user.state}
-                  typeUser={user.typeUser}
+                  spec={'Sem informação'}
+                  city={'Sem informação'}
+                  state={'Sem informação'}
+                  typeUser={'Sem informação'}
                 />
               )
             })}
